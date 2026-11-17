@@ -1,0 +1,154 @@
+[
+    {
+      "id": "rp_001",
+      "topic": "ratio_proportion",
+      "question": "Rs. 1,200 is shared between Ali and Sara in the ratio 3:5. How much does Sara get?",
+      "options": ["A. Rs. 750", "B. Rs. 450", "C. Rs. 600", "D. Rs. 720"],
+      "answer": "A",
+      "solution_steps": [
+        "Total parts = 3 + 5 = 8",
+        "Value of one part = 1200 / 8 = 150",
+        "Sara has 5 parts = 5 x 150 = Rs. 750"
+      ],
+      "trick": "Divide by the total parts first, then multiply by the person's own part",
+      "difficulty": "easy",
+      "target_seconds": 72
+    },
+    {
+      "id": "rp_002",
+      "topic": "ratio_proportion",
+      "question": "In a class, the ratio of boys to girls is 3:2. If there are 18 boys, how many students are there in total?",
+      "options": ["A. 12", "B. 27", "C. 30", "D. 36"],
+      "answer": "C",
+      "solution_steps": [
+        "Boys = 3 parts = 18, so 1 part = 18 / 3 = 6",
+        "Girls = 2 parts = 2 x 6 = 12",
+        "Total students = 18 + 12 = 30"
+      ],
+      "trick": "Find the value of 1 part from the group you know, then multiply by the total parts (5 x 6 = 30)",
+      "difficulty": "easy",
+      "target_seconds": 72
+    },
+    {
+      "id": "rp_003",
+      "topic": "ratio_proportion",
+      "question": "The cost of 5 notebooks is Rs. 275. What is the cost of 8 notebooks at the same rate?",
+      "options": ["A. Rs. 330", "B. Rs. 385", "C. Rs. 400", "D. Rs. 440"],
+      "answer": "D",
+      "solution_steps": [
+        "Cost of 1 notebook = 275 / 5 = Rs. 55",
+        "Cost of 8 notebooks = 8 x 55 = Rs. 440"
+      ],
+      "trick": "Find the unit rate first (cost of one), then multiply",
+      "difficulty": "easy",
+      "target_seconds": 72
+    },
+    {
+      "id": "rp_004",
+      "topic": "ratio_proportion",
+      "question": "On a map, 2 cm represents 15 km. Two towns are 7 cm apart on the map. What is the actual distance between them?",
+      "options": ["A. 105 km", "B. 52.5 km", "C. 26.25 km", "D. 14 km"],
+      "answer": "B",
+      "solution_steps": [
+        "1 cm represents 15 / 2 = 7.5 km",
+        "7 cm represents 7 x 7.5 = 52.5 km"
+      ],
+      "trick": "Reduce the scale to 1 cm = ? km before multiplying",
+      "difficulty": "easy",
+      "target_seconds": 72
+    },
+    {
+      "id": "rp_005",
+      "topic": "ratio_proportion",
+      "question": "The ages of Hina and her mother are in the ratio 2:5. After 8 years, the ratio of their ages will be 1:2. What is Hina's present age?",
+      "options": ["A. 8 years", "B. 24 years", "C. 16 years", "D. 40 years"],
+      "answer": "C",
+      "solution_steps": [
+        "Let present ages be 2x and 5x",
+        "After 8 years: (2x + 8) / (5x + 8) = 1/2",
+        "2(2x + 8) = 5x + 8, so 4x + 16 = 5x + 8, so x = 8",
+        "Hina's present age = 2 x 8 = 16 years (mother is 40)"
+      ],
+      "trick": "Write present ages as ratio multiples, add the years to both, then cross-multiply. Never add years to the ratio numbers directly",
+      "difficulty": "medium",
+      "target_seconds": 72
+    },
+    {
+      "id": "rp_006",
+      "topic": "ratio_proportion",
+      "question": "A 35-litre mixture contains milk and water in the ratio 5:2. How much water must be added to make the ratio of milk to water 5:4?",
+      "options": ["A. 10 litres", "B. 20 litres", "C. 15 litres", "D. 5 litres"],
+      "answer": "A",
+      "solution_steps": [
+        "Milk = 35 x 5/7 = 25 litres, water = 35 x 2/7 = 10 litres",
+        "Milk stays 25 litres. For ratio 5:4, water must be 25 x 4/5 = 20 litres",
+        "Water to add = 20 - 10 = 10 litres"
+      ],
+      "trick": "Keep the unchanged part (milk) fixed, find the new value of the other part, then subtract the old value",
+      "difficulty": "medium",
+      "target_seconds": 72
+    },
+    {
+      "id": "rp_007",
+      "topic": "ratio_proportion",
+      "question": "12 workers can build a wall in 18 days. If only 8 workers are available, in how many days will they build the same wall, working at the same rate?",
+      "options": ["A. 12 days", "B. 24 days", "C. 30 days", "D. 27 days"],
+      "answer": "D",
+      "solution_steps": [
+        "Total work = 12 x 18 = 216 worker-days",
+        "Days needed by 8 workers = 216 / 8 = 27 days"
+      ],
+      "trick": "Fewer workers means more days (inverse proportion). Multiply workers x days to get total work, then divide by the new workers",
+      "difficulty": "medium",
+      "target_seconds": 72
+    },
+    {
+      "id": "rp_008",
+      "topic": "ratio_proportion",
+      "question": "Rs. 7,000 is divided among A, B and C. A:B = 2:3 and B:C = 4:5. How much does C get?",
+      "options": ["A. Rs. 1,600", "B. Rs. 3,000", "C. Rs. 2,400", "D. Rs. 3,500"],
+      "answer": "B",
+      "solution_steps": [
+        "Make B equal in both ratios: LCM of 3 and 4 is 12",
+        "A:B = 2:3 = 8:12 and B:C = 4:5 = 12:15",
+        "A:B:C = 8:12:15, total parts = 35",
+        "1 part = 7000 / 35 = 200, so C = 15 x 200 = Rs. 3,000"
+      ],
+      "trick": "Match the common term (B) using the LCM before joining two ratios into one",
+      "difficulty": "medium",
+      "target_seconds": 72
+    },
+    {
+      "id": "rp_009",
+      "topic": "ratio_proportion",
+      "question": "Two alloys contain copper and zinc in the ratios 3:2 and 1:4 respectively. In what ratio should they be melted together so that the new alloy has equal amounts of copper and zinc?",
+      "options": ["A. 1:3", "B. 2:3", "C. 3:1", "D. 4:1"],
+      "answer": "C",
+      "solution_steps": [
+        "Copper fraction in alloy 1 = 3/5, in alloy 2 = 1/5. Target = 1/2",
+        "Alloy 1 is 1/10 above the target (3/5 - 1/2). Alloy 2 is 3/10 below it (1/2 - 1/5)",
+        "Amounts of alloy 1 : alloy 2 = 3/10 : 1/10 = 3:1",
+        "Check: 3 units of alloy 1 gives copper 9/5 and zinc 6/5. 1 unit of alloy 2 gives copper 1/5 and zinc 4/5. Total copper = 2 and zinc = 2, so they are equal"
+      ],
+      "trick": "Alligation: convert each alloy to a copper fraction. The mixing ratio is the opposite distances from the target, so the amount of alloy 1 matches the gap on alloy 2's side",
+      "difficulty": "hard",
+      "target_seconds": 72
+    },
+    {
+      "id": "rp_010",
+      "topic": "ratio_proportion",
+      "question": "The incomes of Ahmad and Bilal are in the ratio 7:5, and their expenditures are in the ratio 3:2. If each saves Rs. 4,000, what is Ahmad's income?",
+      "options": ["A. Rs. 20,000", "B. Rs. 24,000", "C. Rs. 32,000", "D. Rs. 28,000"],
+      "answer": "D",
+      "solution_steps": [
+        "Let incomes be 7x and 5x, and expenditures 3y and 2y",
+        "Savings: 7x - 3y = 4000 and 5x - 2y = 4000",
+        "Multiply the first by 2: 14x - 6y = 8000. Multiply the second by 3: 15x - 6y = 12000",
+        "Subtract: x = 4000, so Ahmad's income = 7 x 4000 = Rs. 28,000",
+        "Check: y = 8000, so Ahmad spends 24000 and saves 4000. Bilal earns 20000, spends 16000 and saves 4000"
+      ],
+      "trick": "Income - Expenditure = Savings. Write both as ratio multiples, form two equations, and eliminate the expenditure variable",
+      "difficulty": "hard",
+      "target_seconds": 72
+    }
+  ]
