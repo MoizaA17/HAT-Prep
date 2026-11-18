@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import streamlit as st
 
 # ---------- Page setup ----------
@@ -52,6 +54,12 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# ---------- Where the lesson files live ----------
+# __file__ is this app.py. Its parent is the folder app.py sits in, so the
+# path works no matter which folder you run "streamlit run" from.
+BASE_DIR = Path(__file__).parent
+LESSON_DIR = BASE_DIR / "data" / "lessons"      #HAT-Prep/data/lessons
+
 # ---------- Remember the current screen ----------
 # session_state keeps its values between clicks. We start on "topics".
 if "screen" not in st.session_state:
@@ -68,6 +76,15 @@ def open_lesson(topic):
     """Remember which topic was clicked, then show the lesson screen."""
     st.session_state.topic = topic
     st.session_state.screen = "lesson"
+
+def load_lesson(topic):
+    """Read the lesson file for a topic. Returns None if the file is missing."""
+    # "Ratio & Proportion" -> "ratio_proportion"
+    file_name = topic.lower().replace(" & ", "_").replace(" ", "_") + ".md"
+    lesson_path = LESSON_DIR / file_name
+    if not lesson_path.exists():
+        return None
+    return lesson_path.read_text(encoding="utf-8")
 
 
 # ---------- Screen 1: Topic picker ----------
@@ -98,15 +115,35 @@ def show_topics():
                               key=name, use_container_width=True)
 
 
-# ---------- Screen 2: Lesson (placeholder) ----------
+# ---------- Screen 2: Lesson ----------
 def show_lesson():
     st.markdown('<div class="eyebrow">Lesson</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="title">{st.session_state.topic}</div>', unsafe_allow_html=True)
+
+    # Load the lesson file and show it (or a warning if the file is missing)
+    lesson_text = load_lesson(st.session_state.topic)
+    if lesson_text is None:
+        st.warning("Lesson file not found. Check the data/lessons folder.")
+    else:
+        st.markdown(lesson_text)
+
+    
     st.markdown('<hr class="rule">', unsafe_allow_html=True)
 
-    st.write("Lesson content will appear here.")
-
+    # Buttons below the lesson
+    st.button("Start test", on_click=go_to, args=("test",), key="start_test")
     st.button("← Back to topics", on_click=go_to, args=("topics",), key="back")
+
+
+# ---------- Screen 3: Test (placeholder) ----------
+def show_test():
+    st.markdown('<div class="eyebrow">Test</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="title">{st.session_state.topic}</div>', unsafe_allow_html=True)
+    st.markdown('<hr class="rule">', unsafe_allow_html=True)
+
+    st.write("Test questions will appear here.")
+
+    st.button("← Back to lesson", on_click=go_to, args=("lesson",), key="back_to_lesson")
 
 
 # ---------- Show the right screen ----------
@@ -114,3 +151,5 @@ if st.session_state.screen == "topics":
     show_topics()
 elif st.session_state.screen == "lesson":
     show_lesson()
+elif st.session_state.screen == "test":
+    show_test()

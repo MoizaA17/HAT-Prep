@@ -1,6 +1,4 @@
-# Ratio & Proportion
-
-**Reading time:** about 5 minutes
+**Reading time:** about 5 minutes\
 **HAT pace:** about 72 seconds per question
 
 ---
