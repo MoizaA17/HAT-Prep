@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import streamlit as st
@@ -59,6 +60,8 @@ st.markdown(
 # path works no matter which folder you run "streamlit run" from.
 BASE_DIR = Path(__file__).parent
 LESSON_DIR = BASE_DIR / "data" / "lessons"      #HAT-Prep/data/lessons
+QUESTION_DIR = BASE_DIR / "data"      # HAT-Prep/data
+
 
 # ---------- Remember the current screen ----------
 # session_state keeps its values between clicks. We start on "topics".
@@ -85,6 +88,21 @@ def load_lesson(topic):
     if not lesson_path.exists():
         return None
     return lesson_path.read_text(encoding="utf-8")
+
+
+def load_questions(topic):
+    """Read the question file for a topic. Returns None if the file is missing."""
+    # "Ratio & Proportion" -> "questions_ratio_proportion.json"
+    file_name = "questions_" + topic.lower().replace(" & ", "_").replace(" ", "_") + ".json"
+    question_path = QUESTION_DIR / file_name
+    if not question_path.exists():
+        return None
+    text = question_path.read_text(encoding="utf-8")
+    data = json.loads(text)          # turn the text into a Python list
+    # Some files are a plain list, some wrap it as {"questions": [...]}
+    if isinstance(data, dict):
+        data = data["questions"]
+    return data
 
 
 # ---------- Screen 1: Topic picker ----------
@@ -131,18 +149,52 @@ def show_lesson():
     st.markdown('<hr class="rule">', unsafe_allow_html=True)
 
     # Buttons below the lesson
-    st.button("Start test", on_click=go_to, args=("test",), key="start_test")
-    st.button("← Back to topics", on_click=go_to, args=("topics",), key="back")
+    # Buttons below the lesson: Back on the left, Start test on the right
+    left, middle, right = st.columns([1, 2, 1])
+
+    with left:
+        st.button("← Back to Topics", on_click=go_to, args=("topics",),
+                  key="back", use_container_width=True)
+
+    with right:
+        st.button("Start Test", on_click=go_to, args=("test",),
+                  key="start_test", use_container_width=True)
 
 
-# ---------- Screen 3: Test (placeholder) ----------
+# ---------- Screen 3: Test ----------
 def show_test():
     st.markdown('<div class="eyebrow">Test</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="title">{st.session_state.topic}</div>', unsafe_allow_html=True)
     st.markdown('<hr class="rule">', unsafe_allow_html=True)
 
-    st.write("Test questions will appear here.")
+    # Load all the questions for this topic
+    questions = load_questions(st.session_state.topic)
 
+    if not questions:
+        # File missing or empty: show a friendly warning instead of crashing
+        st.warning("Question file not found. Check the data folder.")
+    else:
+        # For now we only show the FIRST question (position 0 in the list)
+        question = questions[0]
+        total = len(questions)
+
+        # "Question 1 of 10"
+        st.markdown(f"**Question 1 of {total}**")
+
+        # The question text
+        st.write(question["question"])
+
+        # The 4 options as radio buttons.
+        # index=None means nothing is picked until the student clicks.
+        st.radio(
+            "Choose your answer",
+            question["options"],
+            index=None,
+            key=f"answer_{question['id']}",
+            label_visibility="collapsed",   # hide the small label above the radio
+        )
+
+    st.markdown('<hr class="rule">', unsafe_allow_html=True)
     st.button("← Back to lesson", on_click=go_to, args=("lesson",), key="back_to_lesson")
 
 
