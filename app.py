@@ -1,4 +1,5 @@
 import json
+import time
 from pathlib import Path
 
 import streamlit as st
@@ -74,6 +75,13 @@ ACTIVE_TOPICS = ["Ratio & Proportion"]
 def go_to(screen_name):
     """Change the current screen."""
     st.session_state.screen = screen_name
+    #Every time we open the test, start with "not submitted yet"
+    if screen_name == "test":
+        st.session_state.submitted = False
+    # Delete any old start times and results from earlier tries
+        for key in list(st.session_state.keys()):
+            if key.startswith("start_") or key.startswith("seconds_"):
+                del st.session_state[key]
 
 def open_lesson(topic):
     """Remember which topic was clicked, then show the lesson screen."""
@@ -160,44 +168,75 @@ def show_lesson():
         st.button("Start Test", on_click=go_to, args=("test",),
                   key="start_test", use_container_width=True)
 
-
 # ---------- Screen 3: Test ----------
+def save_answer(question_id):
+    """Runs when Submit is clicked. Stops the stopwatch and saves the seconds."""
+    start_time = st.session_state[f"start_{question_id}"]
+    seconds_taken = round(time.time() - start_time)      # whole seconds
+    st.session_state[f"seconds_{question_id}"] = seconds_taken
+    st.session_state.submitted = True
+
 def show_test():
     st.markdown('<div class="eyebrow">Test</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="title">{st.session_state.topic}</div>', unsafe_allow_html=True)
     st.markdown('<hr class="rule">', unsafe_allow_html=True)
 
-    # Load all the questions for this topic
     questions = load_questions(st.session_state.topic)
 
     if not questions:
-        # File missing or empty: show a friendly warning instead of crashing
         st.warning("Question file not found. Check the data folder.")
     else:
-        # For now we only show the FIRST question (position 0 in the list)
-        question = questions[0]
+        question = questions[0]          # still only the first question
         total = len(questions)
+        question_id = question["id"]
+        submitted = st.session_state.get("submitted", False)
 
-        # "Question 1 of 10"
+        # --- Start the stopwatch ONCE ---
+        # Streamlit re-runs this whole function on every click.
+        # "if not in session_state" makes sure we only save the time
+        # the very first time, so later re-runs don't reset it.
+        start_key = f"start_{question_id}"
+        if start_key not in st.session_state:
+            st.session_state[start_key] = time.time()
+
         st.markdown(f"**Question 1 of {total}**")
-
-        # The question text
         st.write(question["question"])
 
-        # The 4 options as radio buttons.
-        # index=None means nothing is picked until the student clicks.
-        st.radio(
+        chosen_option = st.radio(
             "Choose your answer",
             question["options"],
             index=None,
-            key=f"answer_{question['id']}",
-            label_visibility="collapsed",   # hide the small label above the radio
+            key=f"answer_{question_id}",
+            label_visibility="collapsed",
+            disabled=submitted,
         )
+
+        st.markdown("**How sure are you?**")
+        confidence = st.radio(
+            "How sure are you?",
+            ["Sure", "Not sure"],
+            index=None,
+            horizontal=True,
+            key=f"confidence_{question_id}",
+            label_visibility="collapsed",
+            disabled=submitted,
+        )
+
+        not_ready = chosen_option is None or confidence is None
+        st.button("Submit", on_click=save_answer, args=(question_id,),
+                  key="submit", disabled=not_ready or submitted)
+
+        # After Submit: show saved message and the time line
+        if submitted:
+            st.success("Answer saved.")
+            seconds_taken = st.session_state[f"seconds_{question_id}"]
+            target = question.get("target_seconds", 72)   # 72 if the file has none
+            st.caption(f"Time: {seconds_taken}s (target {target}s)")
 
     st.markdown('<hr class="rule">', unsafe_allow_html=True)
     st.button("← Back to lesson", on_click=go_to, args=("lesson",), key="back_to_lesson")
 
-
+    
 # ---------- Show the right screen ----------
 if st.session_state.screen == "topics":
     show_topics()
